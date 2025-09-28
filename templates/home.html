@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Recognition</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Main content container */
+        .main-content {
+            padding: 4rem 0;
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c5530;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Form container */
+        .form-container {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 0 auto;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-title {
+            color: #333;
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* File input styling */
+        .file-input-wrapper {
+            margin-bottom: 1.5rem;
+        }
+
+        .file-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px dashed #28a745;
+            border-radius: 8px;
+            background: #f8fff8;
+            color: #333;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .file-input:hover {
+            border-color: #20c997;
+            background: #f0fff4;
+        }
+
+        .file-input::file-selector-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            margin-right: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .file-input::file-selector-button:hover {
+            background: #218838;
+        }
+
+        /* Upload button */
+        .upload-btn {
+            width: 100%;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            background: #28a745;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .upload-btn:hover {
+            background: #218838;
+        }
+
+        /* Result container */
+        .result-container {
+            margin-top: 2rem;
+        }
+
+        .result-box {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .result-img-container {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .result-image {
+            width: 100%;
+            max-width: 250px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .result-text {
+            flex: 2;
+            min-width: 250px;
+        }
+
+        .result-text h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2c5530;
+        }
+
+        .result-text p {
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .result-text strong {
+            color: #2c5530;
+        }
+
+        /* Loading animation */
+        .loading {
+            display: none;
+            text-align: center;
+            color: #666;
+            margin-top: 1rem;
+        }
+
+        .spinner {
+            border: 2px solid #f0f0f0;
+            border-radius: 50%;
+            border-top: 2px solid #28a745;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                margin: 0 1rem;
+                padding: 1.5rem;
+            }
+            
+            .result-box {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .result-img-container {
+                margin: 0 auto;
+            }
+            
+            .content-wrapper {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main content -->
+    <div class="main-content">
+        <div class="content-wrapper">
+            <!-- Hero section -->
+            <div class="hero-section">
+                <h1 class="hero-title">Plant Disease Recognition</h1>
+                <p class="hero-subtitle">Upload an image to analyze plant health</p>
+            </div>
+
+            <!-- Form container -->
+            <div class="form-container">
+                <form action="/upload/" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <h2 class="form-title">Upload Image</h2>
+                    
+                    <div class="file-input-wrapper">
+                        <input type="file" accept="image/png, image/jpeg, image/jpg" name="img" class="file-input" required>
+                    </div>
+                    
+                    <button type="submit" class="upload-btn">
+                        <span class="btn-text">Upload</span>
+                    </button>
+                    
+                    <div class="loading" id="loadingDiv">
+                        <div class="spinner"></div>
+                        <p>Analyzing image...</p>
+                    </div>
+                </form>
+
+                <!-- Results section -->
+                {% if result %}
+                <div class="result-container">
+                    <div class="result-box">
+                        <div class="result-img-container">
+                            <img src="{{imagepath}}" alt="Uploaded image" class="result-image">
+                        </div>
+                        <div class="result-text">
+                            <h3>{{prediction['name']}}</h3>
+                            <p><strong>Cause:</strong> {{prediction['cause']}}</p>
+                            <p><strong>Treatment:</strong> {{prediction['cure']}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Loading animation
+        document.getElementById('uploadForm').addEventListener('submit', function() {
+            document.querySelector('.btn-text').style.display = 'none';
+            document.getElementById('loadingDiv').style.display = 'block';
+            document.querySelector('.upload-btn').disabled = true;
+        });
+
+        // File input enhancement
+        const fileInput = document.querySelector('.file-input');
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                console.log('Selected file:', fileName);
+            }
+        });
+    </script>
+</body>
+</html>
