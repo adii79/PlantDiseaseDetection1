@@ -1,0 +1,23 @@
+# Ignore virtual environments
+venv/
+ENV/
+.venv/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore build/ML junk
+*.h5
+*.ckpt
+*.pb
+*.onnx
+*.tflite
+*.dylib
+*.so
+
+# Ignore IDE stuff
+.vscode/
+.idea/
