@@ -21,3 +21,4 @@ __pycache__/
 # Ignore IDE stuff
 .vscode/
 .idea/
+venv/
