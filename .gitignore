@@ -14,7 +14,7 @@ __pycache__/
 *.ckpt
 *.pb
 *.onnx
-*.tflite
+# *.tflite
 *.dylib
 *.so
 
